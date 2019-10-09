@@ -7,6 +7,7 @@ public class SheepController : MonoBehaviour {
   private Vector3 target;
 
   private bool targetXPassed = false;
+  private EntityAITasks tasks = new EntityAITasks();
 
   void Start() {
     transform.position = new Vector3(Random.value * 128, 65, Random.value * 128);
@@ -37,5 +38,7 @@ public class SheepController : MonoBehaviour {
     RaycastHit intersection;
     if (Physics.Linecast(transform.position + new Vector3(0f, 2f, 0f), transform.position + new Vector3(0f, -1000f, 0f), out intersection))
       transform.position = intersection.point;
+
+    tasks.Update();
   }
 }
