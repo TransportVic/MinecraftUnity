@@ -12,6 +12,13 @@ public class SheepController : MonoBehaviour {
   void Start() {
     transform.position = new Vector3(Random.value * 128, 65, Random.value * 128);
     ResetTarget();
+
+    tasks.AddTask(new EntityAIWander(this.gameObject));
+    tasks.AddTask(new EntityAILookIdle(this.gameObject));
+
+    RaycastHit intersection;
+    if (Physics.Linecast(transform.position + new Vector3(0f, 2f, 0f), transform.position + new Vector3(0f, -1000f, 0f), out intersection))
+      transform.position = intersection.point;
   }
 
   void ResetTarget() {
@@ -33,12 +40,6 @@ public class SheepController : MonoBehaviour {
   }
 
   void Update() {
-    Move();
-
-    RaycastHit intersection;
-    if (Physics.Linecast(transform.position + new Vector3(0f, 2f, 0f), transform.position + new Vector3(0f, -1000f, 0f), out intersection))
-      transform.position = intersection.point;
-
     tasks.Update();
   }
 }
