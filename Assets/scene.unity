@@ -392,7 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e092721b21dd4546bcb4e35cb287c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sheep: {fileID: 2266523250368890287, guid: 3ae064d2557dd4ac9930e92ee2c30f1b, type: 3}
+  sheep: {fileID: 4700431053790142122, guid: 3ae064d2557dd4ac9930e92ee2c30f1b, type: 3}
 --- !u!64 &1217452637
 MeshCollider:
   m_ObjectHideFlags: 0

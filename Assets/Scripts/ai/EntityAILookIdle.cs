@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class EntityAILookIdle : EntityAITask {
 
-  private EntityLookHelper lookHelper;
   private GameObject entity;
   private int idleTime = 0;
   private int direction = 0;
 
   public EntityAILookIdle(GameObject entity) {
     this.entity = entity;
-    lookHelper = new EntityLookHelper(entity);
     SetMutexBits(3);
   }
 
