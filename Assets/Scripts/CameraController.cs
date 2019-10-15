@@ -141,7 +141,8 @@ public class CameraController : MonoBehaviour {
 
     transform.position = newPosition;
 
-    isLookingAtBlock = Physics.Linecast(transform.position, transform.position + forward * 5, out intersection);
+    Vector3 cameraPosition = camera.transform.position;
+    isLookingAtBlock = Physics.Linecast(cameraPosition, cameraPosition + forward * 5, out intersection);
     if (isLookingAtBlock) {
       lookingAt = intersection.point;
 
