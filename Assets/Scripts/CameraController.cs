@@ -9,8 +9,9 @@ public class CameraController : MonoBehaviour {
   private SpawnerController spawner;
   private RectTransform canvasDims;
   private GameObject debugText;
+  public GameObject camera;
 
-  private Quaternion lockRot;  
+  private Quaternion lockRot;
   private Vector3 lookingAt;
   private Vector3Int lookingAtBlock;
   private int lookingAtBlockFace;
@@ -124,16 +125,21 @@ public class CameraController : MonoBehaviour {
 
   void Update() {
     transform.localRotation = lockRot;
-    Vector3 forward = transform.GetChild(0).forward;
-    Vector3 right = transform.GetChild(0).right;
+    Vector3 forward = camera.transform.forward;
+    Vector3 right = camera.transform.right;
     Vector3 newPosition = transform.position + forward * 0.05f * Input.GetAxis("Vertical");
     newPosition += right * 0.05f * Input.GetAxis("Horizontal");
     newPosition.x = Mathf.Min(128, Mathf.Max(0, newPosition.x));
     newPosition.z = Mathf.Min(128, Mathf.Max(0, newPosition.z));
 
     RaycastHit intersection;
-    if (Physics.Linecast(newPosition, newPosition + new Vector3(0f, -1000f, 0f), out intersection))
-      //transform.position = intersection.point + new Vector3(0f, 2f, 0f);
+    if (Physics.Linecast(newPosition, newPosition + new Vector3(0f, -1000f, 0f), out intersection)) {
+      if (newPosition.y - 1 < intersection.point.y) {
+        newPosition.y = intersection.point.y + 1;
+      }
+    }
+
+    transform.position = newPosition;
 
     isLookingAtBlock = Physics.Linecast(transform.position, transform.position + forward * 5, out intersection);
     if (isLookingAtBlock) {
