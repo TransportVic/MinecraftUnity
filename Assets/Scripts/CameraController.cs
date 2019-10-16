@@ -32,8 +32,8 @@ public class CameraController : MonoBehaviour {
   }
 
   void OnBlockLookedAtTimeout() {
-    int[] chunkCoords = spawner.GenerateBlockAt(lookingAtBlock.x, lookingAtBlock.y, lookingAtBlock.z, 3);
-    spawner.UpdateChunk(chunkCoords[0], chunkCoords[1]);
+    //int[] chunkCoords = spawner.GenerateBlockAt(lookingAtBlock.x, lookingAtBlock.y, lookingAtBlock.z, 3);
+    //spawner.UpdateChunk(chunkCoords[0], chunkCoords[1]);
   }
 
   void OnBlockLookedAt() {
