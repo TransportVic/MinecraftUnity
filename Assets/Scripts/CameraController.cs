@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour {
   private GameObject debugText;
   public GameObject camera;
 
+  public float jumpSpeed;
+
   private Quaternion lockRot;
   private Vector3 lookingAt;
   private Vector3Int lookingAtBlock;
@@ -18,6 +20,7 @@ public class CameraController : MonoBehaviour {
   private float startedLookingAtBlockTime;
   private bool isLookingAtBlock;
   private bool hasTriggered = false;
+  private Rigidbody rb;
 
   private float cameraWidth, cameraHeight;
 
@@ -29,6 +32,7 @@ public class CameraController : MonoBehaviour {
     debugText = GameObject.Find("Debug Text");
 
     lockRot = Quaternion.Euler(0f, 0f, 0f);
+    rb = GetComponent<Rigidbody>();
   }
 
   void OnBlockLookedAtTimeout() {
@@ -161,5 +165,12 @@ public class CameraController : MonoBehaviour {
         OnBlockLookedAtTimeout();
       }
     } else OnBlockLookedAway();
+  }
+
+  void FixedUpdate()
+  {
+    if (Input.GetButton("Jump")) {
+      rb.AddForce(0f, jumpSpeed, 0f);
+    }
   }
 }
