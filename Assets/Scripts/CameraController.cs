@@ -27,7 +27,6 @@ public class CameraController : MonoBehaviour {
   void Start() {
     GameObject spawnerObject = GameObject.Find("WorldSpawner");
     spawner = spawnerObject.GetComponent<SpawnerController>();
-    rigidbody = GetComponent<Rigidbody>();
 
     canvasDims = GameObject.Find("Canvas").GetComponent<RectTransform>();
     debugText = GameObject.Find("Debug Text");
