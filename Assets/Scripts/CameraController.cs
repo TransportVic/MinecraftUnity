@@ -27,6 +27,7 @@ public class CameraController : MonoBehaviour {
   void Start() {
     GameObject spawnerObject = GameObject.Find("WorldSpawner");
     spawner = spawnerObject.GetComponent<SpawnerController>();
+    rigidbody = GetComponent<Rigidbody>();
 
     canvasDims = GameObject.Find("Canvas").GetComponent<RectTransform>();
     debugText = GameObject.Find("Debug Text");
@@ -129,10 +130,14 @@ public class CameraController : MonoBehaviour {
 
   void Update() {
     transform.localRotation = lockRot;
-    Vector3 forward = camera.transform.forward;
     Vector3 right = camera.transform.right;
+    float cameraY = camera.transform.localRotation.eulerAngles.y * 3.14159265f / 180f;
+    Vector3 forward = new Vector3(Mathf.Sin(cameraY), 0, Mathf.Cos(cameraY));
+    forward.Normalize();
+
     Vector3 newPosition = transform.position + forward * 0.05f * Input.GetAxis("Vertical");
     newPosition += right * 0.05f * Input.GetAxis("Horizontal");
+
     newPosition.x = Mathf.Min(128, Mathf.Max(0, newPosition.x));
     newPosition.z = Mathf.Min(128, Mathf.Max(0, newPosition.z));
 
