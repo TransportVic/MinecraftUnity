@@ -15,13 +15,13 @@ public class ChunkController : MonoBehaviour {
     {new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0)}, // 0: air
     {new Vector2(0, 2), new Vector2(0, 2), new Vector2(0, 1), new Vector2(0, 3), new Vector2(0, 2), new Vector2(0, 2)}, // 1: grass
     {new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1)}, // 2: dirt
-    {new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0)},  // 3: stone
-    {new Vector2(1, 2), new Vector2(1, 2), new Vector2(1, 3), new Vector2(1, 3), new Vector2(1, 2), new Vector2(1, 2)},  // 4: oak log
+    {new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0)}, // 3: stone
+    {new Vector2(1, 2), new Vector2(1, 2), new Vector2(1, 3), new Vector2(1, 3), new Vector2(1, 2), new Vector2(1, 2)}, // 4: oak log
     {new Vector2(1, 0), new Vector2(1, 0), new Vector2(1, 0), new Vector2(1, 0), new Vector2(1, 0), new Vector2(1, 0)}  // 5: oak leaf
   };
 
   private int[] transparentBlocks = new int[] {
-    0, 5 // air and oak leaf
+    0, 5, 1 // air and oak leaf
   };
 
   public void Initalise() {
