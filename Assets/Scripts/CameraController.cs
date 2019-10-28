@@ -180,7 +180,7 @@ public class CameraController : MonoBehaviour {
     else Debug.Log("Raycast failed");
   }
 
-  void FixedUpdate()
+  void FixedUpdate() //Rigidbody code goes here
   {
     if (Input.GetButton("Jump") && isGrounded) {
             Debug.Log("Jump bruh");
