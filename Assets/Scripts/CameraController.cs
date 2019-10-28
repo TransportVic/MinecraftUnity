@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour {
   public GameObject camera;
 
   public float jumpSpeed;
+  public float origin_speed;
+  private float speed;
 
   private Quaternion lockRot;
   private Vector3 lookingAt;
@@ -34,10 +36,12 @@ public class CameraController : MonoBehaviour {
 
     lockRot = Quaternion.Euler(0f, 0f, 0f);
     rb = GetComponent<Rigidbody>();
+
+    speed = origin_speed;
   }
 
   void OnBlockLookedAtTimeout() {
-    //int[] chunkCoords = spawner.GenerateBlockAt(lookingAtBlock.x, lookingAtBlock.y, lookingAtBlock.z, 3);
+    //int[] chunkCoords = spawner.GenerateBlockAt(lookingAtBlock.x, lookingAtBlock.y, lookingAtBlock.z, block = 3);
     //spawner.UpdateChunk(chunkCoords[0], chunkCoords[1]);
   }
 
@@ -135,8 +139,9 @@ public class CameraController : MonoBehaviour {
     Vector3 forward = new Vector3(Mathf.Sin(cameraY), 0, Mathf.Cos(cameraY));
     forward.Normalize();
 
-    Vector3 newPosition = transform.position + forward * 0.05f * Input.GetAxis("Vertical");
-    newPosition += right * 0.05f * Input.GetAxis("Horizontal");
+    speed = Input.GetButton("Fire1") ? origin_speed * 1.5f : origin_speed;
+    Vector3 newPosition = transform.position + forward * speed * Input.GetAxis("Vertical");
+    newPosition += right * speed * Input.GetAxis("Horizontal");
 
     newPosition.x = Mathf.Min(128, Mathf.Max(0, newPosition.x));
     newPosition.z = Mathf.Min(128, Mathf.Max(0, newPosition.z));
