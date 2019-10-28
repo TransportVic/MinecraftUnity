@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour {
   private bool isLookingAtBlock;
   private bool hasTriggered = false;
   private Rigidbody rb;
+  private bool isGrounded;
 
   private float cameraWidth, cameraHeight;
 
@@ -68,8 +69,8 @@ public class CameraController : MonoBehaviour {
 
       RectTransform debugTextTransform = debugText.GetComponent<RectTransform>();
       debugTextTransform.anchoredPosition = new Vector2(
-        -cameraWidth / 2 + debugTextTransform.rect.width / 2 + 5,
-        cameraHeight / 2 - debugTextTransform.rect.height / 2 - 5);
+      -cameraWidth / 2 + debugTextTransform.rect.width / 2 + 5,
+      cameraHeight / 2 - debugTextTransform.rect.height / 2 - 5);
     }
 
     int facing = GetFacing(transform.GetChild(0).forward);
@@ -169,12 +170,21 @@ public class CameraController : MonoBehaviour {
         OnBlockLookedAtTimeout();
       }
     } else OnBlockLookedAway();
+
+    RaycastHit hit;
+    if (Physics.Linecast(transform.position, transform.position - new Vector3(0f, 1000f, 0f), out hit))
+    {
+        Debug.Log("Raycast hit at " + hit.point);
+        isGrounded = transform.position.y <= hit.point.y + 1;
+    }
+    else Debug.Log("Raycast failed");
   }
 
   void FixedUpdate()
   {
-    if (Input.GetButton("Jump")) {
-      rb.AddForce(0f, jumpSpeed, 0f);
+    if (Input.GetButton("Jump") && isGrounded) {
+            Debug.Log("Jump bruh");
+            rb.velocity = new Vector3(0f, jumpSpeed, 0f);
     }
   }
 }
