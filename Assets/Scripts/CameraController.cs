@@ -13,6 +13,8 @@ public class CameraController : MonoBehaviour {
 
   public float jumpSpeed;
   public float origin_speed;
+  public int lineRange;
+  public float sprintMultiplier;
   private float speed;
 
   private Quaternion lockRot;
@@ -133,13 +135,14 @@ public class CameraController : MonoBehaviour {
   }
 
   void Update() {
+
     transform.localRotation = lockRot;
     Vector3 right = camera.transform.right;
     float cameraY = camera.transform.localRotation.eulerAngles.y * 3.14159265f / 180f;
     Vector3 forward = new Vector3(Mathf.Sin(cameraY), 0, Mathf.Cos(cameraY));
     forward.Normalize();
 
-    speed = Input.GetButton("Fire1") ? origin_speed * 1.5f : origin_speed;
+    speed = Input.GetButton("Fire1") ? origin_speed * sprintMultiplier : origin_speed;
     Vector3 newPosition = transform.position + forward * speed * Input.GetAxis("Vertical");
     newPosition += right * speed * Input.GetAxis("Horizontal");
 
@@ -176,13 +179,22 @@ public class CameraController : MonoBehaviour {
       }
     } else OnBlockLookedAway();
 
-    RaycastHit hit;
-    if (Physics.Linecast(transform.position, transform.position - new Vector3(0f, 1000f, 0f), out hit))
+    RaycastHit groundHit;
+    if (Physics.Linecast(transform.position, transform.position - new Vector3(0f, 1000f, 0f), out groundHit))
     {
-        Debug.Log("Raycast hit at " + hit.point);
-        isGrounded = transform.position.y <= hit.point.y + 1;
+        Debug.Log("Raycast hit at " + groundHit.point);
+        isGrounded = transform.position.y <= groundHit.point.y + 1;
     }
     else Debug.Log("Raycast failed");
+  }
+
+  void Magic_LineOfBlocks()
+  {
+    RaycastHit line;
+    if (Physics.Linecast(camera.transform.position, camera.transform.forward * lineRange, out line))
+    {
+      Debug.Log("line Hit");
+    }
   }
 
   void FixedUpdate() //Rigidbody code goes here
