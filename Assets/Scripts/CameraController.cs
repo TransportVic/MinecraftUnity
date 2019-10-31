@@ -193,7 +193,7 @@ public class CameraController : MonoBehaviour {
     RaycastHit line;
     if (Physics.Linecast(camera.transform.position, camera.transform.forward * lineRange, out line))
     {
-      Debug.Log("line Hit");
+      Debug.Log("Line Hit");
     }
   }
 
