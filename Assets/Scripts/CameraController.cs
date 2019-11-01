@@ -42,12 +42,11 @@ public class CameraController : MonoBehaviour {
     speed = origin_speed;
   }
 
-/*
   void OnBlockLookedAtTimeout() {
-    int[] chunkCoords = spawner.GenerateBlockAt(lookingAtBlock.x, lookingAtBlock.y, lookingAtBlock.z, block = 3);
+    int[] chunkCoords = spawner.GenerateBlockAt(lookingAtBlock.x, lookingAtBlock.y, lookingAtBlock.z, /*type = */3);
     spawner.UpdateChunk(chunkCoords[0], chunkCoords[1]);
   }
-*/
+
   void OnBlockLookedAt() {
     hasTriggered = false;
     startedLookingAtBlockTime = Time.time;
@@ -135,8 +134,8 @@ public class CameraController : MonoBehaviour {
     return facing;
   }
 
-  void Update() {
-
+  void Update()
+  {
     transform.localRotation = lockRot;
     Vector3 right = camera.transform.right;
     float cameraY = camera.transform.localRotation.eulerAngles.y * 3.14159265f / 180f;
@@ -174,9 +173,9 @@ public class CameraController : MonoBehaviour {
         OnBlockLookedAt();
       }
 
-      if (!hasTriggered && startedLookingAtBlockTime < Time.time - 0.2) {
+      if (!hasTriggered && startedLookingAtBlockTime < Time.time - 0.2 && Input.GetButton("Fire2")) {
         hasTriggered = true;
-        //OnBlockLookedAtTimeout();
+        OnBlockLookedAtTimeout();
       }
     } else OnBlockLookedAway();
 
@@ -189,14 +188,16 @@ public class CameraController : MonoBehaviour {
     else Debug.Log("Raycast failed");
   }
 
+  /*
   void Magic_LineOfBlocks()
   {
     RaycastHit line;
     if (Physics.Linecast(camera.transform.position, camera.transform.forward * lineRange, out line))
     {
-      Debug.Log("Line Hit");
+      Debug.Log(line.point);
     }
   }
+  */
 
   void FixedUpdate() //Rigidbody code goes here
   {
