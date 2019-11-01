@@ -42,11 +42,12 @@ public class CameraController : MonoBehaviour {
     speed = origin_speed;
   }
 
+/*
   void OnBlockLookedAtTimeout() {
-    //int[] chunkCoords = spawner.GenerateBlockAt(lookingAtBlock.x, lookingAtBlock.y, lookingAtBlock.z, block = 3);
-    //spawner.UpdateChunk(chunkCoords[0], chunkCoords[1]);
+    int[] chunkCoords = spawner.GenerateBlockAt(lookingAtBlock.x, lookingAtBlock.y, lookingAtBlock.z, block = 3);
+    spawner.UpdateChunk(chunkCoords[0], chunkCoords[1]);
   }
-
+*/
   void OnBlockLookedAt() {
     hasTriggered = false;
     startedLookingAtBlockTime = Time.time;
@@ -175,7 +176,7 @@ public class CameraController : MonoBehaviour {
 
       if (!hasTriggered && startedLookingAtBlockTime < Time.time - 0.2) {
         hasTriggered = true;
-        OnBlockLookedAtTimeout();
+        //OnBlockLookedAtTimeout();
       }
     } else OnBlockLookedAway();
 
