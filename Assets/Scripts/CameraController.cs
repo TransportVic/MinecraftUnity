@@ -161,7 +161,6 @@ public class CameraController : MonoBehaviour {
     Vector3 cameraPosition = camera.transform.position;
     isLookingAtBlock = Physics.Linecast(cameraPosition + camera.transform.forward, cameraPosition + camera.transform.forward * 5f, out intersection);
     if (isLookingAtBlock) {
-      Debug.Log("Raycast hit at " + intersection.point);
       lookingAt = intersection.point;
 
       Vector3Int currentLookingAtBlock = Vector3Int.FloorToInt(lookingAt + camera.transform.forward * 0.1f);
@@ -184,7 +183,7 @@ public class CameraController : MonoBehaviour {
     if (Physics.Linecast(transform.position, transform.position - new Vector3(0f, 1000f, 0f), out groundHit))
     {
         // Debug.Log("Raycast hit at " + hit.point);
-        isGrounded = transform.position.y <= hit.point.y + 1;
+        isGrounded = transform.position.y <= groundHit.point.y + 1;
     }
     else Debug.Log("Raycast failed");
   }
