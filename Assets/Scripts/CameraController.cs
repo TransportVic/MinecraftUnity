@@ -114,9 +114,8 @@ public class CameraController : MonoBehaviour {
     return facing * (facings[facing - 1] < 0 ? -1 : 1);
   }
 
-  /*
-    returns the axis # of the face being looked at on that block.
-  */
+  //returns the axis # of the face being looked at on that block.
+
   int GetBlockFacing(Vector3 differences) {
     float xDiff = differences.x,
           yDiff = differences.y,
@@ -140,6 +139,7 @@ public class CameraController : MonoBehaviour {
     Vector3 right = camera.transform.right;
     float cameraY = camera.transform.localRotation.eulerAngles.y * 3.14159265f / 180f;
     Vector3 forward = new Vector3(Mathf.Sin(cameraY), 0, Mathf.Cos(cameraY));
+    //Debug.Log("forward: " + forward);
     forward.Normalize();
 
     speed = Input.GetButton("Fire1") ? origin_speed * sprintMultiplier : origin_speed;
@@ -160,31 +160,12 @@ public class CameraController : MonoBehaviour {
 
     Vector3 cameraPosition = camera.transform.position;
     isLookingAtBlock = Physics.Linecast(cameraPosition + camera.transform.forward, cameraPosition + camera.transform.forward * 5f, out intersection);
-    if (isLookingAtBlock) {
-      Debug.Log("Raycast hit at " + intersection.point);
-      lookingAt = intersection.point;
-
-      Vector3Int currentLookingAtBlock = Vector3Int.FloorToInt(lookingAt + camera.transform.forward * 0.1f);
-      Vector3 lookingOffset = lookingAt - currentLookingAtBlock;
-      int lookingAtBlockFace = GetBlockFacing(lookingOffset);
-      if (lookingAtBlockFace != 0) this.lookingAtBlockFace = lookingAtBlockFace;
-
-      if (currentLookingAtBlock != lookingAtBlock) {
-        lookingAtBlock = currentLookingAtBlock;
-        OnBlockLookedAt();
-      }
-
-      if (!hasTriggered && startedLookingAtBlockTime < Time.time - 0.2 && Input.GetButton("Fire2")) {
-        hasTriggered = true;
-        OnBlockLookedAtTimeout();
-      }
-    } else OnBlockLookedAway();
 
     RaycastHit groundHit;
     if (Physics.Linecast(transform.position, transform.position - new Vector3(0f, 1000f, 0f), out groundHit))
     {
         // Debug.Log("Raycast hit at " + hit.point);
-        isGrounded = transform.position.y <= hit.point.y + 1;
+        isGrounded = transform.position.y <= groundHit.point.y + 1;
     }
     else Debug.Log("Raycast failed");
   }
@@ -199,6 +180,14 @@ public class CameraController : MonoBehaviour {
     }
   }
   */
+
+  void Magic_Teleport()
+  {
+    if (!Physics.Linecast(transform.position, camera.transform.forward * lineRange))
+    {
+      transform.position = camera.transform.forward * lineRange;
+    }
+  }
 
   void FixedUpdate() //Rigidbody code goes here
   {
