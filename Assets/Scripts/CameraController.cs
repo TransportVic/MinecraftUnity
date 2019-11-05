@@ -168,6 +168,11 @@ public class CameraController : MonoBehaviour {
         isGrounded = transform.position.y <= groundHit.point.y + 1;
     }
     else Debug.Log("Raycast failed");
+
+    if (Input.GetButton("Fire3"))
+    {
+      Magic_Teleport();
+    }
   }
 
   /*
@@ -183,16 +188,15 @@ public class CameraController : MonoBehaviour {
 
   void Magic_Teleport()
   {
-    if (!Physics.Linecast(transform.position, camera.transform.forward * lineRange))
+    if (Physics.Linecast(transform.position, camera.transform.forward * lineRange) != true);
     {
-      transform.position = camera.transform.forward * lineRange;
+      transform.position += Camera.main.transform.forward * lineRange;
     }
   }
 
   void FixedUpdate() //Rigidbody code goes here
   {
     if (Input.GetButton("Jump") && isGrounded) {
-            Debug.Log("Jump bruh");
             rb.velocity = new Vector3(0f, jumpSpeed, 0f);
     }
   }
