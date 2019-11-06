@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour {
   private RectTransform canvasDims;
   private GameObject debugText;
   public GameObject camera;
+  public GameObject fireball;
 
   public float jumpSpeed;
   public float origin_speed;
@@ -26,6 +27,9 @@ public class CameraController : MonoBehaviour {
   private bool hasTriggered = false;
   private Rigidbody rb;
   private bool isGrounded;
+  public GameObject player;
+  private AudioSource walk;
+  private int walkTime;
 
   private float cameraWidth, cameraHeight;
 
@@ -40,6 +44,7 @@ public class CameraController : MonoBehaviour {
     rb = GetComponent<Rigidbody>();
 
     speed = origin_speed;
+    walk = player.GetComponent<AudioSource>();
   }
 
   void OnBlockLookedAtTimeout() {
@@ -133,6 +138,8 @@ public class CameraController : MonoBehaviour {
     return facing;
   }
 
+  Vector3 zero = new Vector3(0,0,0);
+
   void Update()
   {
     transform.localRotation = lockRot;
@@ -156,6 +163,13 @@ public class CameraController : MonoBehaviour {
       }
     }
 
+    if (transform.position - newPosition != zero) {
+      Debug.Log(walkTime % 20);
+      if (++walkTime % 20 == 0) {
+        walk.Play();
+      }
+    }
+
     transform.position = newPosition;
 
     Vector3 cameraPosition = camera.transform.position;
@@ -169,10 +183,8 @@ public class CameraController : MonoBehaviour {
     }
     else Debug.Log("Raycast failed");
 
-    if (Input.GetButton("Fire3"))
-    {
-      Magic_Teleport();
-    }
+    if (Input.GetButtonDown("Fire4")) Magic_Teleport(); // Square button
+    if (Input.GetButtonDown("Fire5")) Magic_Fireball(); // Triangle button
   }
 
   /*
@@ -188,10 +200,19 @@ public class CameraController : MonoBehaviour {
 
   void Magic_Teleport()
   {
-    if (Physics.Linecast(transform.position, camera.transform.forward * lineRange) != true);
+    RaycastHit checkForBlockHit;
+    if (Physics.Raycast(camera.transform.position, camera.transform.forward, out checkForBlockHit, lineRange, 3))
     {
-      transform.position += Camera.main.transform.forward * lineRange;
+      transform.position = checkForBlockHit.point + new Vector3(0f, 1f, 0f);
     }
+    else transform.position += camera.transform.forward * lineRange;
+  }
+
+  void Magic_Fireball()
+  {
+    GameObject fb = Instantiate(fireball, transform.position + camera.transform.forward, Quaternion.identity);
+    Destroy(fb, 5);
+    fb.GetComponent<FireballLook>().dir = transform.forward;
   }
 
   void FixedUpdate() //Rigidbody code goes here
@@ -199,5 +220,10 @@ public class CameraController : MonoBehaviour {
     if (Input.GetButton("Jump") && isGrounded) {
             rb.velocity = new Vector3(0f, jumpSpeed, 0f);
     }
+  }
+
+  void OnCollisionEnter(Collider col)
+  {
+
   }
 }
