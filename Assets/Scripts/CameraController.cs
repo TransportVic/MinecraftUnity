@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +26,9 @@ public class CameraController : MonoBehaviour {
   private bool hasTriggered = false;
   private Rigidbody rb;
   private bool isGrounded;
+  public GameObject player;
+  private AudioSource walk;
+  private int walkTime;
 
   private float cameraWidth, cameraHeight;
 
@@ -40,6 +43,7 @@ public class CameraController : MonoBehaviour {
     rb = GetComponent<Rigidbody>();
 
     speed = origin_speed;
+    walk = player.GetComponent<AudioSource>();
   }
 
   void OnBlockLookedAtTimeout() {
@@ -134,6 +138,8 @@ public class CameraController : MonoBehaviour {
     return facing;
   }
 
+  Vector3 zero = new Vector3(0,0,0);
+
   void Update()
   {
     transform.localRotation = lockRot;
@@ -153,6 +159,13 @@ public class CameraController : MonoBehaviour {
     if (Physics.Linecast(newPosition, newPosition + new Vector3(0f, -1000f, 0f), out intersection)) {
       if (newPosition.y - 1 < intersection.point.y) {
         newPosition.y = intersection.point.y + 1;
+      }
+    }
+
+    if (transform.position - newPosition != zero) {
+      Debug.Log(walkTime % 20);
+      if (++walkTime % 20 == 0) {
+        walk.Play();
       }
     }
 
@@ -202,8 +215,8 @@ public class CameraController : MonoBehaviour {
   void FixedUpdate() //Rigidbody code goes here
   {
     if (Input.GetButton("Jump") && isGrounded) {
-            Debug.Log("Jump bruh");
-            rb.velocity = new Vector3(0f, jumpSpeed, 0f);
+      Debug.Log("Jump bruh");
+      rb.velocity = new Vector3(0f, jumpSpeed, 0f);
     }
   }
 }
